@@ -7,7 +7,9 @@ namespace SecureStore.API.Data.Models
         public int Id { get; set; }
 
         [Required]
-        public string UserId { get; set; }
+        public int UserId { get; set; } // Change UserId to int
+
+        public User User { get; set; } // Navigation property to User
 
         [Required]
         public DateTime OrderDate { get; set; }

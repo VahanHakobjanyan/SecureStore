@@ -14,5 +14,7 @@ namespace SecureStore.API.Data.Models
             Email = email;
             Password = password;
         }
+
+        public LoginModel() { }
     }
 }

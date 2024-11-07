@@ -3,24 +3,25 @@ using SecureStore.API.Data;
 using SecureStore.API.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using SecureStore.API.Services;
 
 namespace SecureStore.API.Controllers
 {
     [Route("api/[controller]")]
     public class ProductsController : ControllerBase
     {
-        private readonly SecureStoreApiDbContext _context;
+        private readonly IProductService _productService;
 
-        public ProductsController(SecureStoreApiDbContext context)
+        public ProductsController(IProductService productService)
         {
-            _context = context;
+            _productService = productService;
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet]
         public async Task<ICollection<Product>> RetrieveAll()
         {
-            return await _context.Products.ToListAsync();
+           return await _productService.RetrieveAllProducts();
         }
     }
 }

@@ -7,14 +7,14 @@ namespace SecureStore.API.Data.Models
         public int Id { get; set; }
 
         [Required]
-        public string UserId { get; set; }
-
-        [Required]
-        public int OrderId { get; set; }
-
-        [Required]
         public int Quantity { get; set; }
-        
+
+        [Required]
+        public int CartId { get; set; } // Add CartId for the foreign key
+
+        [Required]
+        public int ProductId { get; set; } // Add ProductId for the foreign key
+
         public Cart Cart { get; set; }
         public Product Product { get; set; }
     }

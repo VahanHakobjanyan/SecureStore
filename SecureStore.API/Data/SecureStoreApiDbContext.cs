@@ -17,41 +17,49 @@ namespace SecureStore.API.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Configure Cart and User (One-to-One relationship)
             modelBuilder.Entity<Cart>()
                 .HasOne(c => c.User)
                 .WithOne(u => u.Cart)
                 .HasForeignKey<Cart>(c => c.UserId)
-                .OnDelete(DeleteBehavior.Cascade); // Configure cascading delete (optional)
+                .OnDelete(DeleteBehavior.Cascade);
 
-            // Configure one-to-many relationship between Cart and CartItem
+            // Configure Cart and CartItem (One-to-Many relationship)
             modelBuilder.Entity<CartItem>()
                 .HasOne(ci => ci.Cart)
                 .WithMany(c => c.CartItems)
-                .HasForeignKey(ci => ci.Cart.Id)
-                .OnDelete(DeleteBehavior.Cascade); // Configure cascading delete (optional)
+                .HasForeignKey(ci => ci.CartId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-            // Configure many-to-one relationship between CartItem and Product
+            // Configure CartItem and Product (Many-to-One relationship)
             modelBuilder.Entity<CartItem>()
                 .HasOne(ci => ci.Product)
                 .WithMany()
-                .HasForeignKey(ci => ci.Product.Id)
-                .OnDelete(DeleteBehavior.Restrict); // Prevent cascading delete of products when CartItems are deleted
+                .HasForeignKey(ci => ci.ProductId)
+                .OnDelete(DeleteBehavior.Restrict);
 
-            // Configure one-to-many relationship between Order and OrderItem
+            // Explicitly configure UserId as foreign key in Order entity
+            modelBuilder.Entity<Order>()
+                .HasOne(o => o.User)
+                .WithMany(u => u.Orders)
+                .HasForeignKey(o => o.UserId) // UserId should be of type int now
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Configure Order and OrderItem (One-to-Many relationship)
             modelBuilder.Entity<OrderItem>()
                 .HasOne(oi => oi.Order)
                 .WithMany(o => o.OrderItems)
                 .HasForeignKey(oi => oi.OrderId)
-                .OnDelete(DeleteBehavior.Cascade); // Configure cascading delete (optional)
+                .OnDelete(DeleteBehavior.Cascade);
 
-            // Configure many-to-one relationship between OrderItem and Product
+            // Configure OrderItem and Product (Many-to-One relationship)
             modelBuilder.Entity<OrderItem>()
                 .HasOne(oi => oi.Product)
                 .WithMany()
                 .HasForeignKey(oi => oi.ProductId)
-                .OnDelete(DeleteBehavior.Restrict); // Prevent cascading delete of products when OrderItems are deleted
+                .OnDelete(DeleteBehavior.Restrict);
 
-            // Configure many-to-many relationship between User and Role (UserRoles join table)
+            // Configure many-to-many relationship between User and Role
             modelBuilder.Entity<User>()
                 .HasMany(u => u.Roles)
                 .WithMany()
