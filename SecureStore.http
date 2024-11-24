@@ -1,0 +1,6 @@
+@SecureStore_HostAddress = http://localhost:5199
+
+GET {{SecureStore_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
