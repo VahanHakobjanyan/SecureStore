@@ -12,6 +12,14 @@ namespace SecureStore.API.Data.Configurations
                 .WithOne(u => u.Cart)
                 .HasForeignKey<Cart>(c => c.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasData(
+                new Cart { Id = 1, UserId = 1 },
+            new Cart { Id = 2, UserId = 2 },
+            new Cart { Id = 3, UserId = 3 },
+            new Cart { Id = 4, UserId = 4 },
+            new Cart { Id = 5, UserId = 5 }
+            );
         }
     }
 }

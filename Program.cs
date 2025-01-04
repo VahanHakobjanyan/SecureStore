@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using SecureStore.API.Data;
 using SecureStore.API.Repositories;
 using SecureStore.API.Services;
+using SecureStore.Repositories;
 using System.Text;
 
 namespace SecureStore.API
@@ -34,8 +35,9 @@ namespace SecureStore.API
                     };
                 });
 
-            builder.Services.AddScoped<ProductRepository>();
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<ProductRepository>();
+            builder.Services.AddScoped<CartRepository>();
             builder.Services.AddScoped<JwtTokenService>();
 
             // Add services to the container.
@@ -45,7 +47,6 @@ namespace SecureStore.API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(c =>
             {
-                // Define the BearerAuth security scheme
                 c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
                 {
                     Name = "Authorization",
@@ -56,7 +57,6 @@ namespace SecureStore.API
                     Description = "Enter JWT Bearer token"
                 });
 
-                // Apply the BearerAuth security scheme globally
                 c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
                 {
                     {

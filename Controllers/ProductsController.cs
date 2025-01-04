@@ -2,11 +2,10 @@
 using SecureStore.API.Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using SecureStore.API.Repositories;
-using SecureStore.Data.DTOs;
 
 namespace SecureStore.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("Api/[controller]")]
     public class ProductsController : ControllerBase
     {
         private readonly ProductRepository _productRepository;

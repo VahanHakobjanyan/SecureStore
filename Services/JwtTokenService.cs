@@ -34,12 +34,12 @@ namespace SecureStore.API.Services
 
             // Create claims list for the JWT
             var claims = new List<Claim>
-    {
-        new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
-        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-        new Claim(ClaimTypes.Email, user.Email)
-    };
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim("UserId", user.Id.ToString()),
+                new Claim(ClaimTypes.Email, user.Email)
+            };
 
             // Check if the user has roles and add them to the claims
             if (user.UserRoles != null)

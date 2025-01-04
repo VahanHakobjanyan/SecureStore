@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using SecureStore.API.Data;
@@ -11,9 +12,11 @@ using SecureStore.API.Data;
 namespace SecureStore.Migrations
 {
     [DbContext(typeof(SecureStoreApiDbContext))]
-    partial class SecureStoreApiDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241220125522_SeedCarts")]
+    partial class SeedCarts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

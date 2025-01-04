@@ -17,13 +17,6 @@
             Email = email;
             Password = password;
         }
-        //public User(int id, string username, string email, string password) : this(username, email, password)
-        //{
-        //    Id = id;
-        //    UserName = username;
-        //    Email = email;
-        //    Password = password;
-        //}
 
         public User() { }
     }

@@ -3,7 +3,7 @@ using SecureStore.API.Data;
 
 namespace SecureStore.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("Api/[controller]")]
     public class OrdersController : ControllerBase
     {
         private readonly SecureStoreApiDbContext _context;

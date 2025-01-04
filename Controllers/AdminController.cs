@@ -6,7 +6,7 @@ using SecureStore.Data.DTOs;
 namespace SecureStore.Controllers
 {
     [Authorize(Roles = "Admin")]
-    [Route("api/[controller]")]
+    [Route("Api/[controller]")]
     public class AdminController : ControllerBase
     {
         private readonly ProductRepository _productRepository;
@@ -33,7 +33,7 @@ namespace SecureStore.Controllers
 
             return NotFound($"Product with ID {id} doesn`t exist");
         }
-        [HttpGet("all")]
+        [HttpGet("All")]
         public async Task<IActionResult> GetAllProducts()
         {
             var products = await _productRepository.GetAllProducts();

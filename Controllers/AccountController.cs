@@ -4,7 +4,7 @@ using SecureStore.Data.DTOs;
 
 namespace SecureStore.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("Api/[controller]")]
     public class AccountController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -16,7 +16,7 @@ namespace SecureStore.API.Controllers
             _jwtTokenService = jwtTokenService;
         }
 
-        [HttpPost("register")]
+        [HttpPost("Register")]
         public async Task<IActionResult> Register(RegisterModel model)
         {
             var newUser = await _userService.Register(model);
@@ -28,7 +28,7 @@ namespace SecureStore.API.Controllers
             return Ok(newUser);
         }
 
-        [HttpPost("login")]
+        [HttpPost("Login")]
         public async Task<IActionResult> Login(LoginModel model)
         {
             var user = await _userService.AuthenticateUserAsync(model.Email, model.Password);
