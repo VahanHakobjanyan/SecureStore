@@ -55,11 +55,16 @@ namespace SecureStore.Repositories
             return cart;
         }
 
-        public async Task<CartItem> UpdateCartItem(int id, int quantity)
+        public async Task<CartItem> UpdateCartItem(int userId, int id, int quantity)
         {
-            var cartItemToUpdate = await _context.CartItems.FindAsync(id);
+            if (id <= 0)
+                return null;
+            if (quantity <= 0)
+                return null;
 
-            if (cartItemToUpdate == null || quantity <= 0)
+            var cartItemToUpdate = await _context.CartItems.FirstOrDefaultAsync(ci => ci.Id == id && ci.Cart.UserId == userId);
+
+            if (cartItemToUpdate == null)
                 return null;
 
             cartItemToUpdate.Quantity = quantity;
@@ -68,9 +73,12 @@ namespace SecureStore.Repositories
             return cartItemToUpdate;
         }
 
-        public async Task<CartItem> DeleteCartItem(int id)
+        public async Task<CartItem> DeleteCartItem(int userId, int id)
         {
-            var cartItemToDelete = await _context.CartItems.FindAsync(id);
+            if (id <= 0)
+                return null;
+            
+            var cartItemToDelete = await _context.CartItems.FirstOrDefaultAsync(ci => ci.Id == id && ci.Cart.UserId == userId);
 
             if (cartItemToDelete == null)
                 return null;
@@ -80,18 +88,16 @@ namespace SecureStore.Repositories
             return cartItemToDelete;
         }
 
-        public async Task<Cart> ClearCart(int userId)
+        public async Task<CartItem> ClearCart(int userId)
         {
-            var cart = await _context.Carts
-                .Include(c => c.CartItems)
-                .FirstOrDefaultAsync(c => c.UserId == userId);
+            var AllCartItems = await _context.CartItems.FirstOrDefaultAsync(ci => ci.Cart.UserId == userId);
 
-            if (cart == null)
+            if (AllCartItems == null)
                 return null;
 
-            _context.CartItems.RemoveRange(cart.CartItems);
+            _context.CartItems.RemoveRange(AllCartItems);
             await _context.SaveChangesAsync();
-            return cart;
+            return AllCartItems;
         }
     }
 }

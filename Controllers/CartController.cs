@@ -38,7 +38,7 @@ namespace SecureStore.API.Controllers
         public async Task<IActionResult> AddItem(AddCartItemRequest request)
         {
             var userIdClaim = User.FindFirst("UserId");
-            if (userIdClaim == null) 
+            if (userIdClaim == null)
             {
                 return Unauthorized("User is not logged in");
             }
@@ -55,7 +55,46 @@ namespace SecureStore.API.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateItem(int id, int quantity)
         {
-            throw new NotImplementedException();
+            var userIdClaim = User.FindFirst("UserId");
+            if (userIdClaim == null)
+            {
+                return Unauthorized("User is not logged in");
+            }
+            var userId = int.Parse(userIdClaim.Value);
+            var updatedCartItem = await _cartRepository.UpdateCartItem(userId, id, quantity);
+            if (updatedCartItem == null)
+                return NotFound($"Cart item with ID {id} not found");
+            return Ok(updatedCartItem);
+        }
+
+        [HttpDelete("id")]
+        public async Task<IActionResult> DeleteItem(int id)
+        {
+            var userIdClaim = User.FindFirst("UserId");
+            if (userIdClaim == null)
+            {
+                return Unauthorized("User is not logged in");
+            }
+            var userId = int.Parse(userIdClaim.Value);
+            var deletedCartItem = await _cartRepository.DeleteCartItem(userId, id);
+            if (deletedCartItem == null)
+                return NotFound($"Cart item with ID {id} not found");
+            return Ok(deletedCartItem);
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> ClearCart()
+        {
+            var userIdClaim = User.FindFirst("UserId");
+            if (userIdClaim == null)
+            {
+                return Unauthorized("User is not logged in");
+            }
+            var userId = int.Parse(userIdClaim.Value);
+            var allCardItems = await _cartRepository.ClearCart(userId);
+            if (allCardItems == null)
+                return NotFound("Cart is empty");
+            return Ok(allCardItems);
         }
     }
 }
